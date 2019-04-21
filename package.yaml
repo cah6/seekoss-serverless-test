@@ -1,0 +1,60 @@
+name:                seekoss-serverless-test
+version:             0.1.0
+github:              "cah6/seekoss-serverless-test"
+license:             BSD3
+author:              "Christian Henry"
+maintainer:          "christian.henry92@gmail.com"
+copyright:           "Copyright (c) 2019 Christian Henry"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Unclassified
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/cah6/seekoss-serverless-test#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- aeson
+- amazonka
+- amazonka-dynamodb
+- containers
+- dynamodb-simple
+- http-types
+- lens
+- unordered-containers
+- serverless-haskell
+- text
+- time
+- uuid
+
+library:
+  source-dirs: src
+
+executables:
+  seekoss-serverless-test-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - seekoss-serverless-test
+
+tests:
+  seekoss-serverless-test-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - seekoss-serverless-test

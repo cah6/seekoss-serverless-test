@@ -1,0 +1,63 @@
+service: seekoss-serverless-test
+
+# Required manual setup:
+# 1) Set up AWS credentials
+# 2) Set AWS_PROFILE env variable if there's multiple (maybe using direnv with an .envrc file). Used to deploy and start offline.
+# 3) Install serverless-dynamodb-local module: npm install serverless-dynamodb-local --save-dev
+# 4) Install local dynamodb: sls dynamodb install
+provider:
+  name: aws
+  runtime: haskell
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-Test
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  seekoss-serverless-test-func:
+    handler: seekoss-serverless-test.seekoss-serverless-test-exe
+    events:
+      - http:
+          path: hello
+          method: get
+      - http:
+          path: hello
+          method: post
+
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+custom:
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+
+plugins:
+  - serverless-haskell
+  - serverless-dynamodb-local
+  - serverless-offline
+

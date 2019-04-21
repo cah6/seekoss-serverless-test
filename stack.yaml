@@ -1,0 +1,10 @@
+# was 13.14
+resolver: lts-12.26
+
+packages:
+- .
+
+extra-deps:
+- dynamodb-simple-0.6.0.1
+- monad-supply-0.7
+- serverless-haskell-0.8.6

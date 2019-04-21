@@ -1,0 +1,1 @@
+{"Item":{"latLng":{"S":"LL {_latitude = 0.0, _longitude = 0.0}"},"subject":{"S":"test"},"user":{"S":"john"},"replies":{"N":"20"},"id":{"S":"00000000-0000-0000-0000-000000000000"},"sampleKey":{"S":"news"}},"TableName":"seekoss-serverless-test-dev-Test"}
